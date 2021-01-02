@@ -22,12 +22,13 @@ class StopwatchApp():
 
     def foreground(self):
         """Activate the application."""
-        wasp.system.bar.clock = True
+        wasp.system.bar.clock = False
         self._draw()
         wasp.system.request_tick(97)
         wasp.system.request_event(wasp.EventMask.TOUCH |
                                   wasp.EventMask.BUTTON |
                                   wasp.EventMask.NEXT)
+        self.press(None, True)
 
     def sleep(self):
         return True
@@ -49,26 +50,13 @@ class StopwatchApp():
         if not state:
             return
 
-        if self._started_at:
-            self._update()
-            self._started_at = 0
-        else:
-            uptime = wasp.watch.rtc.get_uptime_ms()
-            uptime //= 10
-            self._started_at = uptime - self._count
-            self._update()
+        uptime = wasp.watch.rtc.get_uptime_ms()
+        uptime //= 10
+        self._started_at = uptime - self._count
+        self._update()
 
     def touch(self, event):
-        if self._started_at:
-            self._update()
-            self._splits.insert(0, self._count)
-            del self._splits[4:]
-            self._nsplits += 1
-        else:
-            self._reset()
-            self._update()
-
-        self._draw_splits()
+        pass
 
     def tick(self, ticks):
         self._update()
@@ -118,6 +106,7 @@ class StopwatchApp():
         # Before we do anything else let's make sure _count is
         # up to date
         if self._started_at:
+            
             uptime = wasp.watch.rtc.get_uptime_ms()
             uptime //= 10
             self._count = uptime - self._started_at
@@ -134,16 +123,26 @@ class StopwatchApp():
             minutes = secs // 60
             secs %= 60
 
-            t1 = '{}:{:02}'.format(minutes, secs)
-            t2 = '{:02}'.format(centisecs)
+            (yyyy, mm, dd, HH, MM, SS, wday, yday) = wasp.watch.rtc.get_localtime()
+
+            # print(HH, MM, SS)
+
+            hours = 24 - HH
+            minutes = 60 - MM
+            secs = 60 - SS
+
+            hours = 0
+            minutes =
+
+            t1 = '{:02}:{:02}:{:02}'.format(hours, minutes, secs)
 
             draw = wasp.watch.drawable
             draw.set_font(fonts.sans36)
-            draw.set_color(0xc67f)
+            draw.set_color(0xFFFF)
             w = fonts.width(fonts.sans36, t1)
-            draw.string(t1, 180-w, 120-36)
-            draw.fill(0, 0, 120-36, 180-w, 36)
+            # print(w)
+            draw.string(t1, (240-w)//2, 100)
+            # draw.string(t1, 180-w, 120-36)
+            # draw.fill(0, 0, 120-36, 180-w, 36)
 
-            draw.set_font(fonts.sans24)
-            draw.string(t2, 180, 120-36+18, width=46)
             self._last_count = self._count
