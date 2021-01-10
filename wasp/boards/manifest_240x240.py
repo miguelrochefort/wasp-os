@@ -23,6 +23,8 @@ manifest = (
     'apps/snake.py',
     'apps/testapp.py',
     'apps/timer.py',
+    'apps/nomie.py',
+    'apps/home.py',
     'fonts/__init__.py',
     'fonts/clock.py',
     'fonts/sans24.py',

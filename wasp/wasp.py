@@ -28,6 +28,8 @@ from apps.settings import SettingsApp
 from apps.steps import StepCounterApp
 from apps.software import SoftwareApp
 from apps.stopwatch import StopwatchApp
+from apps.home import HomeApp
+from apps.nomie import NomieApp
 
 class EventType():
     """Enumerated interface actions.
@@ -151,6 +153,8 @@ class Manager():
                          (StopwatchApp, True),
                          (HeartApp, True),
                          (SoftwareApp, False),
+                         (HomeApp, False),
+                         (NomieApp, False),
                          (SettingsApp, False) ):
             try:
                 self.register(app(), qr)

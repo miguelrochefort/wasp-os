@@ -121,7 +121,7 @@ class Draw565(object):
         self.set_color(0xffff)
         self.set_font(fonts.sans24)
 
-    def fill(self, bg=None, x=0, y=0, w=None, h=None):
+    def fill(self, bg=None, x=0, y=0, w=None, h=None, radius=1):
         """Draw a solid colour rectangle.
 
         If no arguments a provided the whole display will be filled with
@@ -148,7 +148,6 @@ class Draw565(object):
         display.set_window(x, y, w, h)
 
         remaining = w * h
-
         # Populate the line buffer
         buf = display.linebuffer
         sz = len(display.linebuffer) // 2

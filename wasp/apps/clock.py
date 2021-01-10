@@ -18,7 +18,7 @@ DIGITS = (
         digits.clock_8, digits.clock_9
 )
 
-MONTH = 'JanFebMarAprMayJunJulAugSepOctNovDec'
+MONTH = 'JANFEBMARAPRMAYJUNJULAUGSEPOCTNOVDEC'
 
 class ClockApp():
     """Simple digital clock application.
@@ -79,7 +79,7 @@ class ClockApp():
 
             # Clear the display and draw that static parts of the watch face
             draw.fill()
-            draw.blit(digits.clock_colon, 2*48, 80, fg=mid)
+            draw.blit(digits.clock_colon, 120-5, 80, fg=hi)
 
             # Redraw the status bar
             wasp.system.bar.draw()
@@ -98,10 +98,10 @@ class ClockApp():
         month = MONTH[month*3:(month+1)*3]
 
         # Draw the changeable parts of the watch face
-        draw.blit(DIGITS[now[4]  % 10], 4*48, 80, fg=hi)
-        draw.blit(DIGITS[now[4] // 10], 3*48, 80, fg=lo)
-        draw.blit(DIGITS[now[3]  % 10], 1*48, 80, fg=hi)
-        draw.blit(DIGITS[now[3] // 10], 0*48, 80, fg=lo)
+        draw.blit(DIGITS[now[4]  % 10], 190-5, 80, fg=hi)
+        draw.blit(DIGITS[now[4] // 10], 140-5, 80, fg=hi)
+        draw.blit(DIGITS[now[3]  % 10], 70-5, 80, fg=hi)
+        draw.blit(DIGITS[now[3] // 10], 20-5, 80, fg=hi)
         draw.set_color(hi)
         draw.string('{} {} {}'.format(now[2], month, now[0]),
                 0, 180, width=240)
